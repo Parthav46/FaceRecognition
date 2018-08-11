@@ -1,7 +1,21 @@
 import numpy as np
 
 
-def expand(test_image, dimensions):
+def resize(test_image, dimensions):
+    if len(test_image.shape) == 3:
+        test_image = test_image[:, :, 0]
+    if test_image.shape[0] < dimensions[0]:
+        test_image = _expand(test_image, (dimensions[0], test_image.shape[1]))
+    else:
+        test_image = _compress(test_image, (dimensions[0], test_image.shape[1]))
+    if test_image.shape[1] < dimensions[1]:
+        test_image = _expand(test_image.transpose(), (dimensions[1], dimensions[0]))
+    else:
+        test_image = _compress(test_image.transpose(), (dimensions[1], dimensions[0]))
+    return test_image.transpose()
+
+
+def _expand(test_image, dimensions):
 
     # Purpose of this function is to expand a numpy array to a desired height
     # Note:
@@ -42,7 +56,7 @@ def expand(test_image, dimensions):
     return final_image
 
 
-def compress(test_image, dimensions):
+def _compress(test_image, dimensions):
 
     # Purpose of this function is to compress a numpy array to a desired height
     # Note:
