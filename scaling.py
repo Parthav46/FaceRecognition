@@ -6,11 +6,11 @@ def resize(test_image, dimensions):
         test_image = test_image[:, :, 0]
     if test_image.shape[0] < dimensions[0]:
         test_image = _expand(test_image, (dimensions[0], test_image.shape[1]))
-    else:
+    elif test_image.shape[0]>dimensions[0]:
         test_image = _compress(test_image, (dimensions[0], test_image.shape[1]))
     if test_image.shape[1] < dimensions[1]:
         test_image = _expand(test_image.transpose(), (dimensions[1], dimensions[0]))
-    else:
+    elif test_image.shape[1]>dimensions[1]:
         test_image = _compress(test_image.transpose(), (dimensions[1], dimensions[0]))
     return test_image.transpose()
 
